@@ -1,0 +1,40 @@
+{% extends "django_simple_account/common.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Registration completion" %}{% endblock %}
+
+{% block content %}
+    <div class="brand-wrapper">
+        <img src="{% static "django_simple_account/assets/images/logo.svg" %}" alt="logo" class="logo">
+    </div>
+    <p class="login-card-description">{% trans "OAuth registration completion" %}</p>
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger div-max-width" role="alert">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.auto_id }}">{{ field.label|capfirst }}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                    <span id="{{ field.auto_id }}" class="form-text text-danger" data-error="message">{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit"  value="{% trans "Submit" %}">
+    </form>
+
+    <div style="padding-bottom: 20px;"></div>
+    <p class="login-card-footer-text">
+        {% trans "Don't have an account?" %} <a href="#!" class="text-underline text-reset">{% trans "Register here" %}</a>
+    </p>
+
+{% endblock %}

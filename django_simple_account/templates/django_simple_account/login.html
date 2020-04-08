@@ -1,0 +1,163 @@
+{% extends "django_simple_account/common.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Sign into your account" %}{% endblock %}
+
+{% block js %}
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+    <script>
+        function start() {
+            gapi.load('auth2', function() {
+                let auth2 = gapi.auth2.init({
+                    client_id: "{{ SETTINGS.OAUTH_GOOGLE_CLIENT_ID }}",
+                });
+
+                function signInCallback(authResult) {
+
+                    if (authResult['code']){
+                        $.ajax({
+                            type: 'POST',
+                            url: '{% url "accounts-oauth-google" %}',
+                            data: {
+                                code: authResult['code']
+                            },
+                            //timeout: 1,
+                            beforeSend: function(xhr, settings) {
+                                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                            },
+                            success: function(result) {
+                                let session = result['session'];
+                                {% if request.GET.next %}
+                                    window.location.href = "../oauth/completion/" + session + "/?next={{ request.GET.next }}";
+                                {% else %}
+                                    window.location.href = "../oauth/completion/" + session + "/?next=/";
+                                {% endif %}
+                            },
+                            error: function (jqXHR, textStatus, errorThrown){
+                                if(textStatus == "error") {
+                                    console.log(jqXHR.status);
+                                }
+                            }
+                        });
+                    }
+                }
+
+                $('[data-oauth="google"]').click(function() {
+                    auth2.grantOfflineAccess().then(signInCallback);
+                });
+
+            });
+        }
+
+        // Facebook OAuth
+        $.getScript('https://connect.facebook.net/en_US/sdk.js', function(){
+            FB.init({
+                appId: '{{ SETTINGS.OAUTH_FACEBOOK_CLIENT_ID }}',
+                version: 'v2.7'
+            });
+
+            /*
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    console.log(response);
+                    FB.api('/me', {fields: 'short_name'}, function(response) {
+                        $('button[data-oauth="facebook"] > span[data-oauth="facebook-text"]').html("Войти как " + response.short_name);
+                    });
+                }
+            });
+            */
+
+            $('[data-oauth="facebook"]').on('click', function() {
+                FB.login( function(response) {
+                    console.log(response);
+
+                    if (response.status == "connected"){
+                        //oauth/facebook/
+                        $.ajax({
+                            type: 'POST',
+                            url: '{% url "accounts-oauth-facebook" %}',
+                            data: {
+                                access_token: response['authResponse']['accessToken']
+                            },
+                            beforeSend: function(xhr, settings) {
+                                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                            },
+                            success: function(result) {
+                                let session = result['session'];
+                                {% if request.GET.next %}
+                                    window.location.href = "../oauth/completion/" + session + "/?next={{ request.GET.next }}";
+                                {% else %}
+                                    window.location.href = "../oauth/completion/" + session + "/?next=/";
+                                {% endif %}
+                            }
+                        });
+                    }
+                }, {scope: 'public_profile,email'});
+            });
+        });
+
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="brand-wrapper">
+        <img src="{% static "django_simple_account/assets/images/logo.svg" %}" alt="logo" class="logo">
+    </div>
+    <p class="login-card-description">{% trans "Sign into your account" %}</p>
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger div-max-width" role="alert">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.auto_id }}">{{ field.label|capfirst }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit"  value="{% trans "Login" %}">
+    </form>
+
+    <div style="padding-bottom: 20px;"><a href="#!" class="forgot-password-link">{% trans "Forgot password?" %}</a></div>
+    <p class="login-card-footer-text">
+        {% trans "Don't have an account?" %} <a href="{% url 'accounts-signup' %}" class="text-underline text-reset">{% trans "Register here" %}</a>
+    </p>
+    <hr>
+
+    <div class="row">
+
+        <div class="col-md-4" style="padding: 10px;">
+            <button type="button" data-oauth="google" style="height: 40px; border-width: 0; background: white; color: #737373; border-radius: 5px; white-space: nowrap; box-shadow: 1px 1px 0px 1px rgba(0,0,0,0.05); transition-property: background-color, box-shadow; transition-duration: 150ms; transition-timing-function: ease-in-out; padding: 0;">
+                <span style="display: inline-block; vertical-align: middle; margin: 0px 0 8px 8px; width: 18px; height: 18px; box-sizing: border-box;">
+                    <svg viewBox="0 0 366 372" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M125.9 10.2c40.2-13.9 85.3-13.6 125.3 1.1 22.2 8.2 42.5 21 59.9 37.1-5.8 6.3-12.1 12.2-18.1 18.3l-34.2 34.2c-11.3-10.8-25.1-19-40.1-23.6-17.6-5.3-36.6-6.1-54.6-2.2-21 4.5-40.5 15.5-55.6 30.9-12.2 12.3-21.4 27.5-27 43.9-20.3-15.8-40.6-31.5-61-47.3 21.5-43 60.1-76.9 105.4-92.4z" id="Shape" fill="#EA4335"/>
+                        <path d="M20.6 102.4c20.3 15.8 40.6 31.5 61 47.3-8 23.3-8 49.2 0 72.4-20.3 15.8-40.6 31.6-60.9 47.3C1.9 232.7-3.8 189.6 4.4 149.2c3.3-16.2 8.7-32 16.2-46.8z" id="Shape" fill="#FBBC05"/>
+                        <path d="M361.7 151.1c5.8 32.7 4.5 66.8-4.7 98.8-8.5 29.3-24.6 56.5-47.1 77.2l-59.1-45.9c19.5-13.1 33.3-34.3 37.2-57.5H186.6c.1-24.2.1-48.4.1-72.6h175z" id="Shape" fill="#4285F4"/>
+                        <path d="M81.4 222.2c7.8 22.9 22.8 43.2 42.6 57.1 12.4 8.7 26.6 14.9 41.4 17.9 14.6 3 29.7 2.6 44.4.1 14.6-2.6 28.7-7.9 41-16.2l59.1 45.9c-21.3 19.7-48 33.1-76.2 39.6-31.2 7.1-64.2 7.3-95.2-1-24.6-6.5-47.7-18.2-67.6-34.1-20.9-16.6-38.3-38-50.4-62 20.3-15.7 40.6-31.5 60.9-47.3z" fill="#34A853"/>
+                    </svg>
+                </span>
+                <span style="display: inline-block; vertical-align: middle; padding: 0 12px; font-size: 13px; font-weight: bold; font-family: 'Roboto',arial,sans-serif;">{% trans "Sign in with Google" %}</span>
+            </button>
+        </div>
+
+        <div class="col-md-4" style="padding: 10px;">
+            <button type="button" data-oauth="facebook" style="height: 40px; border-width: 0; background: white; color: #737373; border-radius: 5px; white-space: nowrap; box-shadow: 1px 1px 0px 1px rgba(0,0,0,0.05); transition-property: background-color, box-shadow; transition-duration: 150ms; transition-timing-function: ease-in-out; padding: 0;">
+                <span style="display: inline-block; vertical-align: middle; margin: 0px 0 8px 8px; width: 18px; height: 18px; box-sizing: border-box;">
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="73 0 267 266.9" enable-background="new 73 0 267 266.9" xml:space="preserve">
+                        <path id="Blue_1_" fill="#157DC3" d="M321.1,262.3c7.9,0,14.2-6.4,14.2-14.2V18.8c0-7.9-6.4-14.2-14.2-14.2H91.8C84,4.6,77.6,11,77.6,18.8v229.3c0,7.9,6.4,14.2,14.2,14.2H321.1z"/>
+                        <path id="f" fill="#FFFFFF" d="M255.4,262.3v-99.8h33.5l5-38.9h-38.5V98.8c0-11.3,3.1-18.9,19.3-18.9l20.6,0V45c-3.6-0.5-15.8-1.5-30-1.5c-29.7,0-50,18.1-50,51.4v28.7h-33.6v38.9h33.6v99.8H255.4z"/>
+                    </svg>
+                </span>
+                <span data-oauth="facebook-text" style="display: inline-block; vertical-align: middle; padding: 0 12px; font-size: 13px; font-weight: bold; font-family: 'Roboto',arial,sans-serif;">{% trans "Sign in with Facebook" %}</span>
+            </button>
+        </div>
+
+    </div>
+{% endblock %}

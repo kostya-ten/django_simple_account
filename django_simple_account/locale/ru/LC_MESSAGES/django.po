@@ -1,0 +1,225 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-24 11:07+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: accounts/forms.py:30 accounts/forms.py:97
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: accounts/forms.py:31
+msgid "First name"
+msgstr "Имя"
+
+#: accounts/forms.py:32
+msgid "Last name"
+msgstr "Фамилия"
+
+#: accounts/forms.py:34
+msgid "Email"
+msgstr "Адрес электронной почты"
+
+#: accounts/forms.py:39
+msgid "Password"
+msgstr "Пароль"
+
+#: accounts/forms.py:45
+msgid "Password confirmation"
+msgstr "Подтверждение пароля"
+
+#: accounts/forms.py:88
+msgid "Code"
+msgstr "Код"
+
+#: accounts/forms.py:92
+msgid "Access Token"
+msgstr "Access Token"
+
+#: accounts/models.py:14
+msgid "Male"
+msgstr "Мужской"
+
+#: accounts/models.py:15
+msgid "Female"
+msgstr "Женский"
+
+#: accounts/models.py:21 accounts/models.py:65
+msgid "User"
+msgstr "Пользователь"
+
+#: accounts/models.py:28
+msgid "Gender"
+msgstr "Пол"
+
+#: accounts/models.py:34
+msgid "Birth date"
+msgstr "Дата раждения"
+
+#: accounts/models.py:41
+msgid "Mobile phone"
+msgstr "Мобильный номер телефона"
+
+#: accounts/models.py:56
+msgid "Profile"
+msgstr "Профиль"
+
+#: accounts/models.py:57
+msgid "Profiles"
+msgstr "Профили"
+
+#: accounts/models.py:66
+msgid "OAuth ID"
+msgstr "OAuth ID"
+
+#: accounts/models.py:67
+msgid "Server"
+msgstr "Сервер"
+
+#: accounts/models.py:71 accounts/models.py:72
+msgid "OAuth"
+msgstr "OAuth"
+
+#: accounts/templates/accounts/email/signup.body.html:24
+#: accounts/templates/accounts/email/signup.subject.txt:2
+msgid "Please confirm email address"
+msgstr "Введите действительный адрес электронной почты"
+
+#: accounts/templates/accounts/email/signup.body.html:27
+msgid ""
+"Verify your email address to activate your account.<br><br>If you received "
+"it by mistake or sent it, please disregard this email"
+msgstr ""
+
+#: accounts/templates/accounts/login.html:5
+#: accounts/templates/accounts/login.html:107
+#: accounts/templates/accounts/signup.html:5
+msgid "Sign into your account"
+msgstr "Войдите в свой аккаунт"
+
+#: accounts/templates/accounts/login.html:125
+msgid "Login"
+msgstr "Войти"
+
+#: accounts/templates/accounts/login.html:128
+#: accounts/templates/accounts/signup.html:35
+msgid "Forgot password?"
+msgstr "Забыли пароль?"
+
+#: accounts/templates/accounts/login.html:130
+#: accounts/templates/accounts/oauth_completion.html:37
+#: accounts/templates/accounts/oauth_facebook.html:37
+#: accounts/templates/accounts/oauth_google.html:37
+msgid "Don't have an account?"
+msgstr "У вас нет аккаунта?"
+
+#: accounts/templates/accounts/login.html:130
+#: accounts/templates/accounts/oauth_completion.html:37
+#: accounts/templates/accounts/oauth_facebook.html:37
+#: accounts/templates/accounts/oauth_google.html:37
+msgid "Register here"
+msgstr "Зарегистрируйтесь здесь"
+
+#: accounts/templates/accounts/login.html:146
+msgid "Sign in with Google"
+msgstr "Войти через Google"
+
+#: accounts/templates/accounts/login.html:158
+msgid "Sign in with Facebook"
+msgstr "Войти через Facebook"
+
+#: accounts/templates/accounts/oauth_completion.html:5
+#: accounts/templates/accounts/oauth_completion.html:11
+#: accounts/templates/accounts/oauth_facebook.html:5
+#: accounts/templates/accounts/oauth_google.html:5
+msgid "Registration completion"
+msgstr "Завершение регистрации"
+
+#: accounts/templates/accounts/oauth_completion.html:32
+#: accounts/templates/accounts/oauth_facebook.html:32
+#: accounts/templates/accounts/oauth_google.html:32
+msgid "Submit"
+msgstr "Отправить"
+
+#: accounts/templates/accounts/oauth_facebook.html:11
+#: accounts/templates/accounts/oauth_google.html:11
+#, fuzzy
+#| msgid "Registration completion"
+msgid "OAuth registration completion"
+msgstr "Завершение регистрации"
+
+#: accounts/templates/accounts/signup.html:11
+#: accounts/templates/accounts/signup.html:32
+msgid "Sign Up"
+msgstr "Зарегистрироваться"
+
+#: accounts/templates/accounts/signup.html:37
+msgid "I have an account?"
+msgstr "У вас есть аккаунт?"
+
+#: accounts/templates/accounts/signup.html:37
+msgid "Login here"
+msgstr "Войдите здесь"
+
+#: accounts/validators.py:25
+msgid ""
+"Enter a valid username. This value may contain only English letters, "
+"numbers, and _ - characters. Username should not begin with a number."
+msgstr ""
+"Введите действительное имя пользователя. Значение может содержать только "
+"английские буквы, цифры, и _ - символы. Имя пользователя не должно "
+"начинаться с цифры."
+
+#: accounts/validators.py:42
+msgid "A user with that username already exists"
+msgstr "Пользователь с таким именем уже существует"
+
+#: accounts/validators.py:57 accounts/validators.py:63
+msgid "Invalid mobile phone number"
+msgstr "Неверный номер мобильного телефона"
+
+#: accounts/validators.py:86
+msgid "Enter a valid email address"
+msgstr "Введите действительный адрес электронной почты"
+
+#: accounts/validators.py:155
+msgid "Email address cannot be registered!"
+msgstr "Адрес электронной почты не может быть зарегистрирован!"
+
+#: accounts/validators.py:174
+msgid "User with this email is already exists."
+msgstr "Пользователь с таким адресом электронной почты уже существует"
+
+#: accounts/validators.py:187
+msgid "For the password, you can use only Latin letters, numbers, and symbols"
+msgstr "Для пароля вы можете использовать только латинские буквы, цифры и символы"
+
+#: accounts/views.py:62 accounts/views.py:66
+msgid "The link in the email confirmation email is out of date"
+msgstr "Ссылка в электронном письме с подтверждением устарела"
+
+#: accounts/views.py:72
+msgid "Your address has been successfully verified"
+msgstr "Ваш адрес был успешно подтвержден"
+
+#~ msgid "Terms of use"
+#~ msgstr "Условия использования"
+
+#~ msgid "Privacy policy"
+#~ msgstr "Политика конфиденциальности"
