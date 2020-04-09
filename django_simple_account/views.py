@@ -3,6 +3,7 @@ import hashlib
 import hmac
 import json
 import logging
+import os
 from importlib import import_module
 
 import requests
@@ -142,8 +143,8 @@ class OAuthGoogle(generic.FormView):
 
     def form_valid(self, form):
         credentials = client.credentials_from_code(
-            client_id=settings.OAUTH_GOOGLE_CLIENT_ID,
-            client_secret=settings.OAUTH_GOOGLE_SECRET_KEY,
+            client_id=getattr(settings, 'OAUTH_GOOGLE_CLIENT_ID', os.environ.get('OAUTH_GOOGLE_CLIENT_ID')),
+            client_secret=getattr(settings, 'OAUTH_GOOGLE_SECRET_KEY', os.environ.get('OAUTH_GOOGLE_SECRET_KEY')),
             code=form.cleaned_data.get('code'),
             scope='https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
         )
