@@ -5,6 +5,10 @@ Django simple account
      :target: https://github.com/kostya-ten/django_simple_account/actions/
      :alt: GihHub Action
 
+.. image:: https://img.shields.io/github/last-commit/kostya-ten/django_simple_account
+     :target: https://github.com/kostya-ten/django_simple_account/commits/master
+     :alt: GitHub last commit
+
 .. image:: https://requires.io/github/kostya-ten/django_simple_account/requirements.svg?branch=master
      :target: https://requires.io/github/kostya-ten/django_simple_account/requirements/?branch=master
      :alt: Requirements Status
@@ -14,10 +18,9 @@ Django simple account
      :alt: pypi
 
 .. image:: https://img.shields.io/github/license/kostya-ten/django_simple_account?style=plastic
+     :target: https://github.com/kostya-ten/django_simple_account/blob/master/LICENSE
      :alt: license
 
-.. image:: https://img.shields.io/github/last-commit/kostya-ten/django_simple_account
-     :alt: GitHub last commit
 
 
 
