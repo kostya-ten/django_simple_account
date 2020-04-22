@@ -2,6 +2,6 @@
 
 ## v0.0.3
 
-* Library migration google-auth, google-api-python-client is deprecated 
+* Delete google-api-python-client library (is deprecated)
 
 * Minor documentation changes

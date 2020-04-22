@@ -17,7 +17,6 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
-from oauth2client import client
 
 from . import forms, converters, models
 
@@ -154,14 +153,29 @@ class OAuthGoogle(generic.FormView):
         return response
 
     def form_valid(self, form):
-        credentials = client.credentials_from_code(
-            client_id=getattr(settings, 'OAUTH_GOOGLE_CLIENT_ID', os.environ.get('OAUTH_GOOGLE_CLIENT_ID')),
-            client_secret=getattr(settings, 'OAUTH_GOOGLE_SECRET_KEY', os.environ.get('OAUTH_GOOGLE_SECRET_KEY')),
-            code=form.cleaned_data.get('code'),
-            scope='https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
-        )
+        """
 
-        email = credentials.id_token.get('email')
+        """
+        oauth_response = requests.post("https://oauth2.googleapis.com/token", data={
+            'client_id': getattr(settings, 'OAUTH_GOOGLE_CLIENT_ID', os.environ.get('OAUTH_GOOGLE_CLIENT_ID')),
+            'client_secret': getattr(settings, 'OAUTH_GOOGLE_SECRET_KEY', os.environ.get('OAUTH_GOOGLE_SECRET_KEY')),
+            'code': form.cleaned_data.get('code'),
+            'redirect_uri': "{scheme}://{host}".format(
+                scheme=self.request.scheme,
+                host=self.request.get_host(),
+                path=self.request.path,
+            ),
+            'grant_type': 'authorization_code'
+        })
+
+        j = oauth_response.json()
+        oauth_response = requests.get(
+            url="https://www.googleapis.com/oauth2/v1/userinfo",
+            headers={'Authorization': 'Bearer {access_token}'.format(access_token=j.get('access_token'))}
+        )
+        j = oauth_response.json()
+
+        email = j.get('email')
         email = email.strip().lower()
         user = email.rsplit('@', 1)[0]
         user = str(user).replace(".", "_")
@@ -170,15 +184,15 @@ class OAuthGoogle(generic.FormView):
         session = session_store()
         session.set_expiry(60 * 60 * 3)
 
-        session['oauth_id'] = credentials.client_id
+        session['oauth_id'] = j.get('id')
         session['username'] = user
         session['email'] = None
-        session['first_name'] = credentials.id_token.get('given_name')
-        session['last_name'] = credentials.id_token.get('family_name')
-        session['avatar'] = credentials.id_token.get('picture')
+        session['first_name'] = j.get('given_name')
+        session['last_name'] = j.get('family_name')
+        session['avatar'] = j.get('picture')
         session['provider'] = 1
 
-        if credentials.id_token.get('email_verified'):
+        if j.get('email_verified'):
             session['email'] = email
 
         session.create()
