@@ -30,3 +30,34 @@ If you want to install it from source, grab the git repository from GitHub and r
     $ git clone git://github.com/kostya-ten/django_simple_account.git
     $ cd django_simple_account
     $ python setup.py install
+
+Installation
+"""""""""""""
+To enable ``django_simple_account`` in your project you need to add it to `INSTALLED_APPS` in your projects ``settings.py``
+
+.. code-block:: python
+
+    INSTALLED_APPS = (
+        # ...
+        'django_simple_account',
+        # ...
+    )
+
+
+Enable ``context_processors``
+
+.. code-block:: python
+
+    TEMPLATES = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [],
+            'APP_DIRS': True,
+            'OPTIONS': {
+                'context_processors': [
+                    # ....
+                    'django_simple_account.context_processors.settings',
+                ],
+            },
+        },
+    ]
