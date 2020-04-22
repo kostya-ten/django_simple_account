@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.0.3 (22-04-2019)
+## v0.0.3
 
 04-22-2019 12:45 PDT
 
@@ -10,7 +10,7 @@
 
 * Bump version
 
-## v0.0.4 (22-04-2019)
+## v0.0.4
 
 04-22-2019 15:00 PDT
 
@@ -20,3 +20,8 @@
 
 * Application renamed in Django admin panel
 
+## v0.0.5
+
+04-22-2019 15:00 PDT
+
+* Beta version

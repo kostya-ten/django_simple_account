@@ -216,7 +216,6 @@ class OAuthCompletion(generic.FormView):
             return self.success_url
 
     def get(self, request, session: converters.OAuthSession, *args, **kwargs):
-
         oauth = models.OAuth.objects.filter(oauth_id=session.oauth_id, provider=session.provider)[:1]
         if oauth.exists():
             user = oauth.get().user
