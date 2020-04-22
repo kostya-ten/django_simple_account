@@ -107,7 +107,7 @@ class OAuthFacebook(generic.FormView):
     def form_valid(self, form):
         access_token = form.cleaned_data.get('access_token')
         params = {
-            'fields': 'id,last_name,first_name,picture.width(100).height(100){url,height,width},email',
+            'fields': 'id,last_name,first_name,picture.width(512).height(512){url,height,width},email',
             'access_token': access_token,
         }
         response = requests.get('https://graph.facebook.com/v6.0/me', params=params)
