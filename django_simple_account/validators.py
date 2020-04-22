@@ -3,11 +3,10 @@ import re
 import phonenumbers
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
 from django.utils.translation import gettext_lazy as _
+from email_validator import validate_email, EmailNotValidError
 from phonenumbers import PhoneNumber
 from phonenumbers.phonenumberutil import number_type, PhoneNumberType
-from email_validator import validate_email, EmailNotValidError
 
 
 def username(name: str) -> str:

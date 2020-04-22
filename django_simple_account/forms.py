@@ -1,6 +1,6 @@
 import logging
+from email.utils import make_msgid
 from importlib import import_module
-from email.utils import make_msgid, formataddr
 
 from django import forms
 from django.conf import settings
@@ -11,6 +11,7 @@ from django.core.mail import EmailMessage
 from django.forms import PasswordInput
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
+
 from . import models, converters, validators
 
 logger = logging.getLogger(__name__)

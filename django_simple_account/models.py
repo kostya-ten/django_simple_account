@@ -69,4 +69,3 @@ class OAuth(models.Model):
         unique_together = (('oauth_id', 'provider'),)
         verbose_name = _("OAuth")
         verbose_name_plural = _("OAuth")
-
