@@ -2,12 +2,22 @@ import json
 
 from django.contrib import admin
 from django.contrib.sessions.models import Session
+from django.utils.safestring import mark_safe
 
 from . import models
 
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'gender', 'birth_date', 'phone')
+    readonly_fields = ("avatar_preview", )
+
+    @staticmethod
+    def avatar_preview(obj):
+        url = obj.avatar.url
+        width = obj.avatar.width
+        height = obj.avatar.height
+        img = '<img src="{url}" width="{width}" height={height} />'.format(url=url, width=width, height=height)
+        return mark_safe(img)
 
     def has_add_permission(self, request):
         return False
