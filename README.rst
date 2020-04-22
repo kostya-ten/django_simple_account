@@ -61,3 +61,12 @@ Enable ``context_processors``
             },
         },
     ]
+
+Add ``urls.py`` in project
+
+.. code-block:: python
+
+    urlpatterns = [
+        # ...
+        path('accounts/', include('django_simple_account.urls')),
+    ]
