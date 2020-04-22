@@ -17,3 +17,6 @@
 * Avatar preview added to admin panel
 
 * Big avatars are now downloading 512x512 size
+
+* Application renamed in Django admin panel
+
