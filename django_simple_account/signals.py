@@ -11,7 +11,7 @@ def account_profile(instance=None, created=None, **kwargs):
         models.Profile.objects.create(user=instance)
     else:
         profile = models.Profile.objects.filter(user=instance)
-        if not profile.count():
+        if not profile.exists():
             models.Profile.objects.create(user=instance)
 
     instance.profile.save()
