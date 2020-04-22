@@ -13,6 +13,13 @@ Django simple account
      :target: https://badge.fury.io/py/django-simple-account
      :alt: pypi
 
+.. image:: https://img.shields.io/github/license/kostya-ten/django_simple_account?style=plastic
+     :alt: license
+
+.. image:: https://img.shields.io/github/last-commit/kostya-ten/django_simple_account
+    :alt: GitHub last commit
+
+
 
 Requirements
 """"""""""""""""""
