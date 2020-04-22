@@ -17,7 +17,7 @@ Django simple account
      :alt: license
 
 .. image:: https://img.shields.io/github/last-commit/kostya-ten/django_simple_account
-    :alt: GitHub last commit
+     :alt: GitHub last commit
 
 
 
