@@ -1,12 +1,17 @@
-import re
-from os import urandom
-from pathlib import Path
+import hashlib
 
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from . import validators
+
+
+def unique_file_path_avatar(instance, filename):
+    instance.original_file_name = filename
+    m = hashlib.sha256()
+    m.update("{id}".format(id=instance.user.id).encode('UTF-8'))
+    return 'avatar/{hash}-{file}'.format(hash=m.hexdigest(), file=instance.original_file_name)
 
 
 class Profile(models.Model):
@@ -41,13 +46,7 @@ class Profile(models.Model):
         verbose_name=_("Mobile phone"),
     )
 
-    def path(self, filename):
-        extension = Path(filename).suffix
-        key = urandom(16).hex()
-        result = re.match(r'([a-z0-9]{2})([a-z0-9]{2})', key)
-        return 'avatar/{0}/{1}/{2}'.format(result.group(1), result.group(2), key + extension)
-
-    avatar = models.ImageField(upload_to=path, null=True, blank=True)
+    avatar = models.ImageField(upload_to=unique_file_path_avatar, null=True, blank=True)
 
     def __str__(self):
         return 'User profile {user}'.format(user=self.user)

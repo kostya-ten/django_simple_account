@@ -120,6 +120,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATIC_URL = '/static/'
 
+MEDIA_ROOT = BASE_DIR + '/media/'
+MEDIA_URL = '/media/'
+
+
 LOCALE_PATHS = (
     os.path.join(os.path.dirname(__file__), "locale"),
     os.path.join(os.path.dirname(__file__), "../django_simple_account/locale"),

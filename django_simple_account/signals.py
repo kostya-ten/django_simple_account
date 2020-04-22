@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+
 from . import models
 
 
@@ -14,3 +15,9 @@ def account_profile(instance=None, created=None, **kwargs):
             models.Profile.objects.create(user=instance)
 
     instance.profile.save()
+
+
+# Delete avatar if remove User
+@receiver(post_delete, sender=models.Profile)
+def profile_delete_avatar(sender, instance, **kwargs):
+    instance.avatar.delete(False)

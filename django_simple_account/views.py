@@ -12,7 +12,7 @@ from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
 from django.http import JsonResponse
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
@@ -194,7 +194,12 @@ class OAuthCompletion(generic.FormView):
         oauth = models.OAuth.objects.filter(oauth_id=session.oauth_id, provider=session.provider)[:1]
         if oauth.exists():
             user = oauth.get().user
-            self.download_avatar(session=session, user=user)
+
+            # Download avatar
+            if not user.profile.avatar and session.avatar:
+                response = requests.get(url=session.avatar)
+                if response.status_code == 200:
+                    user.profile.avatar.save('{user_id}.jpg'.format(user_id=user.id), ContentFile(response.content))
 
             auth.login(self.request, user)
             session.session.delete()
@@ -204,7 +209,12 @@ class OAuthCompletion(generic.FormView):
             user = User.objects.filter(email=session.email)[:1]
             if user.exists():
                 user = user.get()
-                self.download_avatar(session=session, user=user)
+
+                # Download avatar
+                if not user.profile.avatar and session.avatar:
+                    response = requests.get(url=session.avatar)
+                    if response.status_code == 200:
+                        user.profile.avatar.save('{user_id}.jpg'.format(user_id=user.id), ContentFile(response.content))
 
                 auth.login(self.request, user)
                 models.OAuth.objects.create(oauth_id=session.oauth_id, provider=session.provider, user=user)
@@ -216,24 +226,17 @@ class OAuthCompletion(generic.FormView):
     def form_valid(self, form):
         session = self.kwargs.get('session')
         user = form.save(session=session)
-        self.download_avatar(session=session, user=user)
+
+        # Download avatar
+        if not user.profile.avatar and session.avatar:
+            response = requests.get(url=session.avatar)
+            if response.status_code == 200:
+                user.profile.avatar.save('{user_id}.jpg'.format(user_id=user.id), ContentFile(response.content))
+
         session.session.delete()
         auth.login(self.request, user)
         response = super().form_valid(form)
         return response
-
-    @staticmethod
-    def download_avatar(session: converters.OAuthSession, user: User):
-        if not session.avatar:
-            return None
-
-        response = requests.get(url=session.avatar)
-        if response.status_code != 200:
-            return None
-
-        profile = get_object_or_404(models.Profile, user=user)
-        if not profile.avatar:
-            profile.avatar.save('avatar.jpg', ContentFile(response.content))
 
 
 @method_decorator(csrf_exempt, name='dispatch')

@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
                     models.ImageField(
                         blank=True,
                         null=True,
-                        upload_to=django_simple_account.models.Profile.path,
+                        upload_to=django_simple_account.models.unique_file_path_avatar,
                     )
                 ),
                 (

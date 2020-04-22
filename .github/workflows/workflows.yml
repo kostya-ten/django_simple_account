@@ -44,6 +44,7 @@ jobs:
       - name: Testing with Django
         run: |
           python manage.py test
+
 #  build:
 #    name: "Build and publish"
 #    needs: test
