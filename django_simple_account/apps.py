@@ -1,3 +1,5 @@
+import importlib
+
 from django.apps import AppConfig
 
 
@@ -6,4 +8,4 @@ class DjangoSimpleAccountConfig(AppConfig):
     verbose_name = "Django simple account"
 
     def ready(self):
-        pass
+        importlib.import_module('django_simple_account.signals')

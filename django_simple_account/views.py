@@ -222,10 +222,10 @@ class OAuthCompletion(generic.FormView):
             user = oauth.get().user
 
             # Download avatar
-            # if not user.profile.avatar and session.avatar:
-            #     response = requests.get(url=session.avatar)
-            #     if response.status_code == 200:
-            #         user.profile.avatar.save('{user_id}.jpg'.format(user_id=user.id), ContentFile(response.content))
+            if session.avatar:
+                response = requests.get(url=session.avatar)
+                if response.status_code == 200:
+                    user.profile.avatar.save('{user_id}.jpg'.format(user_id=user.id), ContentFile(response.content))
 
             auth.login(self.request, user)
             session.session.delete()
@@ -237,10 +237,10 @@ class OAuthCompletion(generic.FormView):
                 user = user.get()
 
                 # Download avatar
-                # if not user.profile.avatar and session.avatar:
-                #     response = requests.get(url=session.avatar)
-                #     if response.status_code == 200:
-                #         user.profile.avatar.save('{user_id}.jpg'.format(user_id=user.id), ContentFile(response.content))
+                if session.avatar:
+                    response = requests.get(url=session.avatar)
+                    if response.status_code == 200:
+                        user.profile.avatar.save('{user_id}.jpg'.format(user_id=user.id), ContentFile(response.content))
 
                 auth.login(self.request, user)
                 models.OAuth.objects.create(oauth_id=session.oauth_id, provider=session.provider, user=user)
@@ -254,10 +254,10 @@ class OAuthCompletion(generic.FormView):
         user = form.save(session=session)
 
         # Download avatar
-        # if not user.profile.avatar and session.avatar:
-        #     response = requests.get(url=session.avatar)
-        #     if response.status_code == 200:
-        #         user.profile.avatar.save('{user_id}.jpg'.format(user_id=user.id), ContentFile(response.content))
+        if session.avatar:
+            response = requests.get(url=session.avatar)
+            if response.status_code == 200:
+                user.profile.avatar.save('{user_id}.jpg'.format(user_id=user.id), ContentFile(response.content))
 
         session.session.delete()
         auth.login(self.request, user)
