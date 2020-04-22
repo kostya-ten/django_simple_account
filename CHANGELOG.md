@@ -7,3 +7,5 @@
 * Delete google-api-python-client library (is deprecated)
 
 * Minor documentation changes
+
+* Bump version
