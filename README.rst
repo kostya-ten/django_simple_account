@@ -6,7 +6,7 @@ Django simple account
      :alt: GihHub Action
 
 .. image:: https://img.shields.io/github/last-commit/kostya-ten/django_simple_account
-     :target: https://badge.fury.io/py/django-simple-account
+     :target: https://github.com/kostya-ten/django_simple_account/commits/master
      :alt: GitHub last commit
 
 .. image:: https://requires.io/github/kostya-ten/django_simple_account/requirements.svg?branch=master
@@ -17,7 +17,9 @@ Django simple account
      :target: https://badge.fury.io/py/django-simple-account
      :alt: pypi
 
-
+.. image:: https://img.shields.io/github/license/kostya-ten/django_simple_account?style=plastic
+     :target: https://github.com/kostya-ten/django_simple_account/blob/master/LICENSE
+     :alt: license
 
 
 
