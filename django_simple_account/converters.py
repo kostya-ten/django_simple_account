@@ -4,6 +4,7 @@ from django.conf import settings
 
 
 class OAuthSession:
+    """Converters url OAuth session."""
     regex = '[a-z0-9]+'
 
     def __init__(self):
@@ -37,6 +38,7 @@ class OAuthSession:
 
 
 class ConfirmationEmailSession:
+    """Converters url Confirmation email session"""
     regex = '[a-z0-9]+'
 
     def __init__(self):
