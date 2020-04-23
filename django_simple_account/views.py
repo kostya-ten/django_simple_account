@@ -77,17 +77,6 @@ class ConfirmationEmail(generic.View):
 
         user = form.save()
 
-        # Download gravatar
-        if data.get('email'):
-            email = str(data.get('email'))
-            email = email.strip().lower().encode()
-            h = hashlib.md5(email)
-
-            url = "https://www.gravatar.com/avatar/{hash}".format(hash=h.hexdigest())
-            response = requests.get(url=url, params={'s': 100, 'd': 404})
-            if response.status_code == 200:
-                user.profile.avatar.save('{user_id}.jpg'.format(user_id=user.id), ContentFile(response.content))
-
         session.session.delete()
         auth.login(self.request, user)
         messages.success(self.request, _("Your address has been successfully verified"))
