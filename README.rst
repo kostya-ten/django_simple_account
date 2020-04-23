@@ -9,6 +9,10 @@ Django simple account
      :target: https://github.com/kostya-ten/django_simple_account/commits/master
      :alt: GitHub last commit
 
+.. image:: https://api.codacy.com/project/badge/Grade/edb40df70aaa4e5c8bd5c66d52b04a18
+     :alt: Codacy Badge
+     :target: https://app.codacy.com/manual/kostya/django_simple_account?utm_source=github.com&utm_medium=referral&utm_content=kostya-ten/django_simple_account&utm_campaign=Badge_Grade_Dashboard
+
 .. image:: https://requires.io/github/kostya-ten/django_simple_account/requirements.svg?branch=master
      :target: https://requires.io/github/kostya-ten/django_simple_account/requirements/?branch=master
      :alt: Requirements Status
