@@ -83,6 +83,3 @@ Add ``urls.py`` in project
         # ...
         path('accounts/', include('django_simple_account.urls')),
     ]
-
-
-.. include:: CHANGELOG.rst
