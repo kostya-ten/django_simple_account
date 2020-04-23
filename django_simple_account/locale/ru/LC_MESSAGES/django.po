@@ -217,9 +217,3 @@ msgstr "Ссылка в электронном письме с подтверж�
 #: accounts/views.py:72
 msgid "Your address has been successfully verified"
 msgstr "Ваш адрес был успешно подтвержден"
-
-#~ msgid "Terms of use"
-#~ msgstr "Условия использования"
-
-#~ msgid "Privacy policy"
-#~ msgstr "Политика конфиденциальности"
