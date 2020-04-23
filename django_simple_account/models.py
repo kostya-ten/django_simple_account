@@ -49,6 +49,7 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to=unique_file_path_avatar, null=True, blank=True)
 
     def __str__(self):
+        """ Override output print object """
         return 'User profile {user}'.format(user=self.user)
 
     class Meta:
@@ -66,6 +67,7 @@ class OAuth(models.Model):
     provider = models.IntegerField(choices=PROVIDER, verbose_name=_("Server"))
 
     class Meta:
+        """ Meta class object OAuth in ORM Django """
         unique_together = (('oauth_id', 'provider'),)
         verbose_name = _("OAuth")
         verbose_name_plural = _("OAuth")
