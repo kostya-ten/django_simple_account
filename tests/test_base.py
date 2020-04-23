@@ -1,3 +1,5 @@
+import hashlib
+import random
 import re
 from importlib import import_module
 
@@ -96,6 +98,7 @@ class Validators(TestCase):
 class Login(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
+        self.pwd = hashlib.sha256(str(random.random()).encode()).hexdigest()
 
     def test_login(self):
         request = self.factory.get(reverse('accounts-login'))
@@ -115,17 +118,17 @@ class Login(TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_login_valid(self):
-        User.objects.create_user(username='username', password="Qazwsx123", email="devnull@yandex.ru")
+        User.objects.create_user(username='username', password=self.pwd, email="devnull@yandex.ru")
 
-        request = self.factory.post(reverse('accounts-login'), data={'username': 'username', 'password': 'Qazwsx123'})
+        request = self.factory.post(reverse('accounts-login'), data={'username': 'username', 'password': self.pwd})
         response = views.Login.as_view()(request)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/', fetch_redirect_response=False)
 
     def test_login_valid_next(self):
-        User.objects.create_user(username='username', password="Qazwsx123", email="devnull@yandex.ru")
+        User.objects.create_user(username='username', password=self.pwd, email="devnull@yandex.ru")
 
-        data = {'username': 'username', 'password': 'Qazwsx123'}
+        data = {'username': 'username', 'password': self.pwd}
         request = self.factory.post(reverse('accounts-login') + "?next=/next/", data=data)
         response = views.Login.as_view()(request)
         self.assertEqual(response.status_code, 302)
@@ -135,6 +138,7 @@ class Login(TestCase):
 class Signup(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
+        self.pwd = hashlib.sha256(str(random.random()).encode()).hexdigest()
 
     def test_signup(self):
 
@@ -149,8 +153,8 @@ class Signup(TestCase):
             'first_name': 'Лилу',
             'last_name': 'Казерогова',
             'email': 'devnull@yandex.ru',
-            'password1': 'Passw0rd12345',
-            'password2': 'Passw0rd12345',
+            'password1': self.pwd,
+            'password2': self.pwd,
         })
 
         response = views.Signup.as_view()(request)
@@ -165,8 +169,8 @@ class Signup(TestCase):
         session = session_store(session_key=gp.group(1))
 
         self.assertEqual(session.get('username'), 'test_user')
-        self.assertEqual(session.get('password1'), 'Passw0rd12345')
-        self.assertEqual(session.get('password2'), 'Passw0rd12345')
+        self.assertEqual(session.get('password1'), self.pwd)
+        self.assertEqual(session.get('password2'), self.pwd)
         self.assertEqual(session.get('last_name'), 'Казерогова')
         self.assertEqual(session.get('first_name'), 'Лилу')
         self.assertEqual(session.get('email'), 'devnull@yandex.ru')
@@ -181,8 +185,8 @@ class Signup(TestCase):
     #         'first_name': 'Лилу',
     #         'last_name': 'Казерогова',
     #         'email': 'kostya@yandex.ru',
-    #         'password1': 'Passw0rd12345',
-    #         'password2': 'Passw0rd12345',
+    #         'password1': self.pwd,
+    #         'password2': self.pwd,
     #     })
     #
     #     response = views.Signup.as_view()(request)
@@ -256,9 +260,10 @@ class Signup(TestCase):
 class OAuth(TestCase):
     def setUp(self):
         self.factory = RequestFactory(HTTP_HOST='localhost')
+        self.pwd = hashlib.sha256(str(random.random()).encode()).hexdigest()
 
     def test_oauth_completion_found_by_oauth_id(self):
-        user = User.objects.create_user(username='username', password="Qazwsx123", email="devnull@yandex.ru")
+        user = User.objects.create_user(username='username', password=self.pwd, email="devnull@yandex.ru")
         models.OAuth.objects.create(user=user, oauth_id="1234567890", provider=1)
 
         session_store = import_module(settings.SESSION_ENGINE).SessionStore
@@ -286,7 +291,7 @@ class OAuth(TestCase):
         self.assertRedirects(response, '/', fetch_redirect_response=False)
 
     def test_oauth_completion_dublicate_email(self):
-        User.objects.create_user(username='username', password="Qazwsx123", email="devnull@yandex.ru")
+        User.objects.create_user(username='username', password=self.pwd, email="devnull@yandex.ru")
 
         session_store = import_module(settings.SESSION_ENGINE).SessionStore
         session = session_store()
