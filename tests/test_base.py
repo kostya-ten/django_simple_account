@@ -1,5 +1,4 @@
 import hashlib
-import random
 import re
 from importlib import import_module
 
@@ -98,7 +97,7 @@ class Validators(TestCase):
 class Login(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.pwd = hashlib.sha256(str(random.random()).encode()).hexdigest()
+        self.pwd = hashlib.sha256(str('hello word').encode()).hexdigest()
 
     def test_login(self):
         request = self.factory.get(reverse('accounts-login'))
@@ -138,7 +137,7 @@ class Login(TestCase):
 class Signup(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.pwd = hashlib.sha256(str(random.random()).encode()).hexdigest()
+        self.pwd = hashlib.sha256(str('hello word').encode()).hexdigest()
 
     def test_signup(self):
 
@@ -260,7 +259,7 @@ class Signup(TestCase):
 class OAuth(TestCase):
     def setUp(self):
         self.factory = RequestFactory(HTTP_HOST='localhost')
-        self.pwd = hashlib.sha256(str(random.random()).encode()).hexdigest()
+        self.pwd = hashlib.sha256(str('hello word').encode()).hexdigest()
 
     def test_oauth_completion_found_by_oauth_id(self):
         user = User.objects.create_user(username='username', password=self.pwd, email="devnull@yandex.ru")
