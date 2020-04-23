@@ -9,9 +9,8 @@ Django simple account
      :target: https://github.com/kostya-ten/django_simple_account/commits/master
      :alt: GitHub last commit
 
-.. image:: https://api.codacy.com/project/badge/Grade/edb40df70aaa4e5c8bd5c66d52b04a18
-     :alt: Codacy Badge
-     :target: https://app.codacy.com/manual/kostya/django_simple_account?utm_source=github.com&utm_medium=referral&utm_content=kostya-ten/django_simple_account&utm_campaign=Badge_Grade_Dashboard
+.. image:: https://api.codacy.com/project/badge/Grade/45d420b488fd452cae355db78f7e1e96
+    :target: https://www.codacy.com/manual/kostya/django_simple_account?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kostya-ten/django_simple_account&amp;utm_campaign=Badge_Grade
 
 .. image:: https://requires.io/github/kostya-ten/django_simple_account/requirements.svg?branch=master
      :target: https://requires.io/github/kostya-ten/django_simple_account/requirements/?branch=master
@@ -84,3 +83,6 @@ Add ``urls.py`` in project
         # ...
         path('accounts/', include('django_simple_account.urls')),
     ]
+
+
+.. include:: CHANGELOG.rst
