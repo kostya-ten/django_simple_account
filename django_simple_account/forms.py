@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 class BaseForm(forms.Form):
+    """ Base class for forms in this project """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in iter(self.fields):
@@ -92,6 +93,7 @@ class Signup(UserCreationForm, BaseForm):
         return session
 
     class Meta:
+        """ Meta class """
         model = User
         fields = ('username', 'last_name', 'first_name', 'email', 'password1', 'password2')
 
