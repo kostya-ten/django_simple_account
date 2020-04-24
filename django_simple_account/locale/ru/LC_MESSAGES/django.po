@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-24 11:07+0000\n"
+"POT-Creation-Date: 2020-04-24 08:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,164 +20,169 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: accounts/forms.py:30 accounts/forms.py:97
+#: django_simple_account/forms.py:36 django_simple_account/forms.py:111
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: accounts/forms.py:31
+#: django_simple_account/forms.py:37
 msgid "First name"
 msgstr "Имя"
 
-#: accounts/forms.py:32
+#: django_simple_account/forms.py:38
 msgid "Last name"
 msgstr "Фамилия"
 
-#: accounts/forms.py:34
+#: django_simple_account/forms.py:40 django_simple_account/forms.py:133
 msgid "Email"
 msgstr "Адрес электронной почты"
 
-#: accounts/forms.py:39
+#: django_simple_account/forms.py:45
 msgid "Password"
 msgstr "Пароль"
 
-#: accounts/forms.py:45
+#: django_simple_account/forms.py:51
 msgid "Password confirmation"
 msgstr "Подтверждение пароля"
 
-#: accounts/forms.py:88
+#: django_simple_account/forms.py:102
 msgid "Code"
 msgstr "Код"
 
-#: accounts/forms.py:92
+#: django_simple_account/forms.py:106
 msgid "Access Token"
 msgstr "Access Token"
 
-#: accounts/models.py:14
+#: django_simple_account/forms.py:129
+msgid "signed_request"
+msgstr ""
+
+#: django_simple_account/models.py:19
 msgid "Male"
 msgstr "Мужской"
 
-#: accounts/models.py:15
+#: django_simple_account/models.py:20
 msgid "Female"
 msgstr "Женский"
 
-#: accounts/models.py:21 accounts/models.py:65
+#: django_simple_account/models.py:26 django_simple_account/models.py:65
 msgid "User"
 msgstr "Пользователь"
 
-#: accounts/models.py:28
+#: django_simple_account/models.py:33
 msgid "Gender"
 msgstr "Пол"
 
-#: accounts/models.py:34
+#: django_simple_account/models.py:39
 msgid "Birth date"
 msgstr "Дата раждения"
 
-#: accounts/models.py:41
+#: django_simple_account/models.py:46
 msgid "Mobile phone"
 msgstr "Мобильный номер телефона"
 
-#: accounts/models.py:56
+#: django_simple_account/models.py:56
 msgid "Profile"
 msgstr "Профиль"
 
-#: accounts/models.py:57
+#: django_simple_account/models.py:57
 msgid "Profiles"
 msgstr "Профили"
 
-#: accounts/models.py:66
+#: django_simple_account/models.py:66
 msgid "OAuth ID"
 msgstr "OAuth ID"
 
-#: accounts/models.py:67
+#: django_simple_account/models.py:67
 msgid "Server"
 msgstr "Сервер"
 
-#: accounts/models.py:71 accounts/models.py:72
+#: django_simple_account/models.py:72 django_simple_account/models.py:73
 msgid "OAuth"
 msgstr "OAuth"
 
-#: accounts/templates/accounts/email/signup.body.html:24
-#: accounts/templates/accounts/email/signup.subject.txt:2
+#: django_simple_account/templates/django_simple_account/email/signup.body.html:24
+#: django_simple_account/templates/django_simple_account/email/signup.subject.txt:2
 msgid "Please confirm email address"
 msgstr "Введите действительный адрес электронной почты"
 
-#: accounts/templates/accounts/email/signup.body.html:27
+#: django_simple_account/templates/django_simple_account/email/signup.body.html:27
 msgid ""
 "Verify your email address to activate your account.<br><br>If you received "
 "it by mistake or sent it, please disregard this email"
 msgstr ""
 
-#: accounts/templates/accounts/login.html:5
-#: accounts/templates/accounts/login.html:107
-#: accounts/templates/accounts/signup.html:5
-msgid "Sign into your account"
-msgstr "Войдите в свой аккаунт"
+#: django_simple_account/templates/django_simple_account/forgotpassword.html:5
+#: django_simple_account/templates/django_simple_account/forgotpassword.html:11
+msgid "Password recovery"
+msgstr "Восстановление пароля"
 
-#: accounts/templates/accounts/login.html:125
-msgid "Login"
-msgstr "Войти"
-
-#: accounts/templates/accounts/login.html:128
-#: accounts/templates/accounts/signup.html:35
-msgid "Forgot password?"
-msgstr "Забыли пароль?"
-
-#: accounts/templates/accounts/login.html:130
-#: accounts/templates/accounts/oauth_completion.html:37
-#: accounts/templates/accounts/oauth_facebook.html:37
-#: accounts/templates/accounts/oauth_google.html:37
-msgid "Don't have an account?"
-msgstr "У вас нет аккаунта?"
-
-#: accounts/templates/accounts/login.html:130
-#: accounts/templates/accounts/oauth_completion.html:37
-#: accounts/templates/accounts/oauth_facebook.html:37
-#: accounts/templates/accounts/oauth_google.html:37
-msgid "Register here"
-msgstr "Зарегистрируйтесь здесь"
-
-#: accounts/templates/accounts/login.html:146
-msgid "Sign in with Google"
-msgstr "Войти через Google"
-
-#: accounts/templates/accounts/login.html:158
-msgid "Sign in with Facebook"
-msgstr "Войти через Facebook"
-
-#: accounts/templates/accounts/oauth_completion.html:5
-#: accounts/templates/accounts/oauth_completion.html:11
-#: accounts/templates/accounts/oauth_facebook.html:5
-#: accounts/templates/accounts/oauth_google.html:5
-msgid "Registration completion"
-msgstr "Завершение регистрации"
-
-#: accounts/templates/accounts/oauth_completion.html:32
-#: accounts/templates/accounts/oauth_facebook.html:32
-#: accounts/templates/accounts/oauth_google.html:32
+#: django_simple_account/templates/django_simple_account/forgotpassword.html:32
+#: django_simple_account/templates/django_simple_account/oauth_completion.html:32
+#: django_simple_account/templates/django_simple_account/oauth_facebook.html:32
+#: django_simple_account/templates/django_simple_account/oauth_google.html:32
 msgid "Submit"
 msgstr "Отправить"
 
-#: accounts/templates/accounts/oauth_facebook.html:11
-#: accounts/templates/accounts/oauth_google.html:11
-#, fuzzy
-#| msgid "Registration completion"
-msgid "OAuth registration completion"
-msgstr "Завершение регистрации"
-
-#: accounts/templates/accounts/signup.html:11
-#: accounts/templates/accounts/signup.html:32
-msgid "Sign Up"
-msgstr "Зарегистрироваться"
-
-#: accounts/templates/accounts/signup.html:37
+#: django_simple_account/templates/django_simple_account/forgotpassword.html:36
+#: django_simple_account/templates/django_simple_account/signup.html:37
 msgid "I have an account?"
 msgstr "У вас есть аккаунт?"
 
-#: accounts/templates/accounts/signup.html:37
+#: django_simple_account/templates/django_simple_account/forgotpassword.html:36
+#: django_simple_account/templates/django_simple_account/signup.html:37
 msgid "Login here"
 msgstr "Войдите здесь"
 
-#: accounts/validators.py:25
+#: django_simple_account/templates/django_simple_account/login.html:5
+#: django_simple_account/templates/django_simple_account/login.html:96
+#: django_simple_account/templates/django_simple_account/signup.html:5
+msgid "Sign into your account"
+msgstr "Войдите в свой аккаунт"
+
+#: django_simple_account/templates/django_simple_account/login.html:113
+msgid "Login"
+msgstr "Войти"
+
+#: django_simple_account/templates/django_simple_account/login.html:116
+#: django_simple_account/templates/django_simple_account/signup.html:35
+msgid "Forgot password?"
+msgstr "Забыли пароль?"
+
+#: django_simple_account/templates/django_simple_account/login.html:118
+#: django_simple_account/templates/django_simple_account/oauth_completion.html:37
+#: django_simple_account/templates/django_simple_account/oauth_facebook.html:37
+#: django_simple_account/templates/django_simple_account/oauth_google.html:37
+msgid "Don't have an account?"
+msgstr "У вас нет аккаунта?"
+
+#: django_simple_account/templates/django_simple_account/login.html:118
+#: django_simple_account/templates/django_simple_account/oauth_completion.html:37
+#: django_simple_account/templates/django_simple_account/oauth_facebook.html:37
+#: django_simple_account/templates/django_simple_account/oauth_google.html:37
+msgid "Register here"
+msgstr "Зарегистрируйтесь здесь"
+
+#: django_simple_account/templates/django_simple_account/login.html:134
+msgid "Sign in with Google"
+msgstr "Войти через Google"
+
+#: django_simple_account/templates/django_simple_account/login.html:148
+msgid "Sign in with Facebook"
+msgstr "Войти через Facebook"
+
+#: django_simple_account/templates/django_simple_account/oauth_completion.html:5
+#: django_simple_account/templates/django_simple_account/oauth_completion.html:11
+#: django_simple_account/templates/django_simple_account/oauth_facebook.html:5
+#: django_simple_account/templates/django_simple_account/oauth_google.html:5
+msgid "Registration completion"
+msgstr "Завершение регистрации"
+
+#: django_simple_account/templates/django_simple_account/signup.html:11
+#: django_simple_account/templates/django_simple_account/signup.html:32
+msgid "Sign Up"
+msgstr "Зарегистрироваться"
+
+#: django_simple_account/validators.py:24
 msgid ""
 "Enter a valid username. This value may contain only English letters, "
 "numbers, and _ - characters. Username should not begin with a number."
@@ -186,34 +191,36 @@ msgstr ""
 "английские буквы, цифры, и _ - символы. Имя пользователя не должно "
 "начинаться с цифры."
 
-#: accounts/validators.py:42
+#: django_simple_account/validators.py:41
 msgid "A user with that username already exists"
 msgstr "Пользователь с таким именем уже существует"
 
-#: accounts/validators.py:57 accounts/validators.py:63
+#: django_simple_account/validators.py:56
+#: django_simple_account/validators.py:62
 msgid "Invalid mobile phone number"
 msgstr "Неверный номер мобильного телефона"
 
-#: accounts/validators.py:86
+#: django_simple_account/validators.py:85
 msgid "Enter a valid email address"
 msgstr "Введите действительный адрес электронной почты"
 
-#: accounts/validators.py:155
+#: django_simple_account/validators.py:154
 msgid "Email address cannot be registered!"
 msgstr "Адрес электронной почты не может быть зарегистрирован!"
 
-#: accounts/validators.py:174
+#: django_simple_account/validators.py:173
 msgid "User with this email is already exists."
 msgstr "Пользователь с таким адресом электронной почты уже существует"
 
-#: accounts/validators.py:187
+#: django_simple_account/validators.py:186
 msgid "For the password, you can use only Latin letters, numbers, and symbols"
-msgstr "Для пароля вы можете использовать только латинские буквы, цифры и символы"
+msgstr ""
+"Для пароля вы можете использовать только латинские буквы, цифры и символы"
 
-#: accounts/views.py:62 accounts/views.py:66
+#: django_simple_account/views.py:71 django_simple_account/views.py:75
 msgid "The link in the email confirmation email is out of date"
 msgstr "Ссылка в электронном письме с подтверждением устарела"
 
-#: accounts/views.py:72
+#: django_simple_account/views.py:82
 msgid "Your address has been successfully verified"
 msgstr "Ваш адрес был успешно подтвержден"
