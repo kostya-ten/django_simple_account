@@ -34,7 +34,7 @@ Requirements
 
 Getting It
 """"""""""""""""""
-You can get Django tree materialized by using pip::
+You can get Django simple account by using pip::
 
     $ pip install django-simple-account
 
