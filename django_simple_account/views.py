@@ -296,3 +296,13 @@ class ForgotPassword(generic.FormView):
     form_class = forms.ForgotPassword
     template_name = 'django_simple_account/forgotpassword.html'
     success_url = '/'
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        response.status_code = 400
+        return response
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        form.confirmation(request=self.request)
+        return response

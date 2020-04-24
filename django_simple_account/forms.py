@@ -130,4 +130,33 @@ class FacebookDeactivate(BaseForm):
 
 
 class ForgotPassword(BaseForm):
-    email = forms.EmailField(label=_('Email'), validators=(validators.email,))
+    email = forms.EmailField(label=_('Email'), validators=(validators.email, validators.email_exist))
+
+    def confirmation(self, request: WSGIRequest = None) -> import_module(settings.SESSION_ENGINE).SessionStore:
+        session_store = import_module(settings.SESSION_ENGINE).SessionStore
+        session = session_store()
+        session.set_expiry(60 * 60 * 24)
+        session['action'] = 'forgotpassword'
+
+        for key, val in self.cleaned_data.items():
+            session[key] = val
+
+        session.create()
+
+        subject = render_to_string('django_simple_account/email/forgotpassword.subject.txt', {}).strip()
+        body = render_to_string('django_simple_account/email/forgotpassword.body.html', {
+            'request': request,
+            'session_key': session.session_key,
+        })
+
+        msg = EmailMessage(
+            subject=subject,
+            body=body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[self.cleaned_data.get('email')],
+            headers={'Message-ID': make_msgid(domain=request.get_host())}
+        )
+        msg.content_subtype = "html"
+        msg.send()
+
+        return session
