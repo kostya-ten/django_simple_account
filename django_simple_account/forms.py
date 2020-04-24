@@ -127,3 +127,7 @@ class OAuthCompletion(BaseForm):
 
 class FacebookDeactivate(BaseForm):
     signed_request = forms.CharField(label=_('signed_request'), widget=forms.TextInput())
+
+
+class ForgotPassword(BaseForm):
+    email = forms.EmailField(label=_('Email'), validators=(validators.email,))

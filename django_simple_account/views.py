@@ -290,3 +290,9 @@ class FacebookDeactivate(generic.FormView):
                 oauth_id=result.get('user_id'))
             )
         return super().form_valid(form)
+
+
+class ForgotPassword(generic.FormView):
+    form_class = forms.ForgotPassword
+    template_name = 'django_simple_account/forgotpassword.html'
+    success_url = '/'
