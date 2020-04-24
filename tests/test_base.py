@@ -62,6 +62,11 @@ class Validators(TestCase):
         with self.assertRaises(ValidationError):
             validators.email_dublicate('devnull@yandex.ru')
 
+    def test_email_exist(self):
+        User.objects.create_user(username='username', email="devnull@yandex.ru")
+        with self.assertRaises(ValidationError):
+            validators.email_exist('devnullnotnound@yandex.ru')
+
     def test_username_dublicate(self):
         User.objects.create_user(username='username', email="devnull@yandex.ru")
 

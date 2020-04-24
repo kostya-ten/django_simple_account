@@ -174,6 +174,25 @@ def email_dublicate(val: str) -> str:
     return val
 
 
+def email_exist(val: str) -> str:
+    """
+    Checks the exist an email
+    :param val: email address
+    :returns: email
+    :raise: ValidationError If the email address is dublicate
+    """
+    val = val.lower().strip()
+
+    user = val.rsplit('@', 1)[0]
+    domain = val.rsplit('@', 1)[-1]
+    if domain in ['ya.ru', 'yandex.by', 'yandex.com', 'yandex.kz', 'yandex.ua']:
+        val = user+'@yandex.ru'
+
+    if not User.objects.filter(email=val).exists():
+        raise ValidationError(_("Email not found in database"))
+    return val
+
+
 def password(val: str) -> str:
     """
     Checks the password syntax
