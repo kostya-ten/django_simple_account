@@ -113,7 +113,7 @@
         <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit"  value="{% trans "Login" %}">
     </form>
 
-    <div style="padding-bottom: 20px;"><a href="#!" class="forgot-password-link">{% trans "Forgot password?" %}</a></div>
+    <div style="padding-bottom: 20px;"><a href="{% url 'django-simple-account:forgotpassword' %}" class="forgot-password-link">{% trans "Forgot password?" %}</a></div>
     <p class="login-card-footer-text">
         {% trans "Don't have an account?" %} <a href="{% url 'django-simple-account:signup' %}" class="text-underline text-reset">{% trans "Register here" %}</a>
     </p>

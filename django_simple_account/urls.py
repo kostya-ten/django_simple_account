@@ -18,7 +18,8 @@ urlpatterns = [
         views.ConfirmationEmail.as_view(),
         name='confirmation-email'
     ),
-    path('facebook/deactivate/', views.FacebookDeactivate.as_view(), name='accounts-facebook-deactivate'),
+    path('forgotpassword/', views.ForgotPassword.as_view(), name='forgotpassword'),
+    path('facebook/deactivate/', views.FacebookDeactivate.as_view(), name='facebook-deactivate'),
 ]
 
 # if 'rest_framework' in settings.INSTALLED_APPS:
