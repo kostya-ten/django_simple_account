@@ -18,7 +18,7 @@
                         if (authResult['code']){
                             $.ajax({
                                 type: 'POST',
-                                url: '{% url "accounts-oauth-google" %}',
+                                url: '{% url "django-simple-account:oauth-google" %}',
                                 data: {
                                     code: authResult['code']
                                 },
@@ -64,7 +64,7 @@
                             //oauth/facebook/
                             $.ajax({
                                 type: 'POST',
-                                url: '{% url "accounts-oauth-facebook" %}',
+                                url: '{% url "django-simple-account:oauth-facebook" %}',
                                 data: {
                                     access_token: response['authResponse']['accessToken']
                                 },
@@ -115,7 +115,7 @@
 
     <div style="padding-bottom: 20px;"><a href="#!" class="forgot-password-link">{% trans "Forgot password?" %}</a></div>
     <p class="login-card-footer-text">
-        {% trans "Don't have an account?" %} <a href="{% url 'accounts-signup' %}" class="text-underline text-reset">{% trans "Register here" %}</a>
+        {% trans "Don't have an account?" %} <a href="{% url 'django-simple-account:signup' %}" class="text-underline text-reset">{% trans "Register here" %}</a>
     </p>
     <hr>
 

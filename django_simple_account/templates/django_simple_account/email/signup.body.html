@@ -27,8 +27,8 @@
                                 {% blocktrans %}Verify your email address to activate your account.<br><br>If you received it by mistake or sent it, please disregard this email{% endblocktrans %}
                             <br>
                             <br>
-                            <a href="{{ request.scheme }}://{{ request.get_host }}{% url 'accounts-confirmation-email' session_key %}">
-                                {{ request.scheme }}://{{ request.get_host }}{% url 'accounts-confirmation-email' session_key %}
+                            <a href="{{ request.scheme }}://{{ request.get_host }}{% url 'django-simple-account:confirmation-email' session_key %}">
+                                {{ request.scheme }}://{{ request.get_host }}{% url 'django-simple-account:confirmation-email' session_key %}
                             </a>
                         </p>
                         <p style="font-family: Arial, sans-serif; color: #000000; font-size: 15px; font-style: italic; margin-top: 30px; margin-bottom: 0;"></p>

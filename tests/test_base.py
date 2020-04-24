@@ -100,11 +100,13 @@ class Login(TestCase):
         self.pwd = hashlib.sha256(str('hello word').encode()).hexdigest()
 
     def test_login(self):
-        request = self.factory.get(reverse('accounts-login'))
+        request = self.factory.get(reverse('django-simple-account:login'))
         response = views.Login.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
-        request = self.factory.post(reverse('accounts-login'), data={'username': 'username', 'password': 'password'})
+        request = self.factory.post(
+            reverse('django-simple-account:login'), data={'username': 'username', 'password': 'password'}
+        )
         response = views.Login.as_view()(request)
         response.render()
 
@@ -119,7 +121,9 @@ class Login(TestCase):
     def test_login_valid(self):
         User.objects.create_user(username='username', password=self.pwd, email="devnull@yandex.ru")
 
-        request = self.factory.post(reverse('accounts-login'), data={'username': 'username', 'password': self.pwd})
+        request = self.factory.post(
+            reverse('django-simple-account:login'), data={'username': 'username', 'password': self.pwd}
+        )
         response = views.Login.as_view()(request)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/', fetch_redirect_response=False)
@@ -128,7 +132,7 @@ class Login(TestCase):
         User.objects.create_user(username='username', password=self.pwd, email="devnull@yandex.ru")
 
         data = {'username': 'username', 'password': self.pwd}
-        request = self.factory.post(reverse('accounts-login') + "?next=/next/", data=data)
+        request = self.factory.post(reverse('django-simple-account:login') + "?next=/next/", data=data)
         response = views.Login.as_view()(request)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/next/', fetch_redirect_response=False)
@@ -142,12 +146,12 @@ class Signup(TestCase):
     def test_signup(self):
 
         # Check request get
-        request = self.factory.get(reverse('accounts-signup'))
+        request = self.factory.get(reverse('django-simple-account:signup'))
         response = views.Signup.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
         # Check request normal data
-        request = self.factory.post(reverse('accounts-signup') + "?next=/next/", data={
+        request = self.factory.post(reverse('django-simple-account:signup') + "?next=/next/", data={
             'username': 'test_user',
             'first_name': 'Лилу',
             'last_name': 'Казерогова',
@@ -222,7 +226,7 @@ class Signup(TestCase):
     def test_signup_confirmation(self):
 
         # Check request normal data
-        request = self.factory.post(reverse('accounts-signup') + "?next=/next/", data={
+        request = self.factory.post(reverse('django-simple-account:signup') + "?next=/next/", data={
             'username': 'test_user',
             'first_name': 'Лилу',
             'last_name': 'Казерогова',
@@ -242,7 +246,9 @@ class Signup(TestCase):
         session_store = import_module(settings.SESSION_ENGINE).SessionStore
         session = session_store(session_key=gp.group(1))
         obj = converters.ConfirmationEmailSession().to_python(session=session.session_key)
-        request = self.factory.get(reverse('accounts-confirmation-email', kwargs={'session': session.session_key}))
+        request = self.factory.get(
+            reverse('django-simple-account:confirmation-email', kwargs={'session': session.session_key})
+        )
 
         # adding session
         middleware = SessionMiddleware()
@@ -277,7 +283,7 @@ class OAuth(TestCase):
         session.create()
 
         request = self.factory.get(reverse(
-            'accounts-oauth-completion',
+            'django-simple-account:oauth-completion',
             kwargs={'session': session.session_key}),
         )
         middleware = SessionMiddleware()
@@ -304,7 +310,7 @@ class OAuth(TestCase):
         session.create()
 
         request = self.factory.get(reverse(
-            'accounts-oauth-completion',
+            'django-simple-account:oauth-completion',
             kwargs={'session': session.session_key}),
         )
         middleware = SessionMiddleware()
@@ -328,7 +334,9 @@ class OAuth(TestCase):
         session['provider'] = 1
         session.create()
 
-        request = self.factory.get(reverse('accounts-oauth-completion', kwargs={'session': session.session_key}))
+        request = self.factory.get(
+            reverse('django-simple-account:oauth-completion', kwargs={'session': session.session_key})
+        )
         obj = converters.OAuthSession().to_python(session=session.session_key)
 
         response = views.OAuthCompletion.as_view()(request, session=obj)
@@ -337,7 +345,7 @@ class OAuth(TestCase):
 
         # Registration completion
         request = self.factory.post(reverse(
-            'accounts-oauth-completion',
+            'django-simple-account:oauth-completion',
             kwargs={'session': session.session_key}),
             data={'username': 'kazerogova'}
         )
