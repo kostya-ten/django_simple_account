@@ -1,9 +1,15 @@
 CHANGELOG
 =========
 
+v0.0.7
+-------
+05/11/2020
+
+ * feat: Add recovery password
+
 v0.0.6
 -------
-04-23-2020
+04/23/2020
 
  * fix: Possible hardcoded secret key (secret)
  * fix: PEP 257 in converters.py
@@ -11,13 +17,13 @@ v0.0.6
 
 v0.0.5
 -------
-04-22-2020
+04/22/2020
 
  * Beta version
 
 v0.0.4
 -------
-04-22-2019
+04/22/2019
 
  * Avatar preview added to admin panel
  * Big avatars are now downloading 512x512 size
@@ -25,7 +31,7 @@ v0.0.4
 
 v0.0.3
 -------
-04-22-2020
+04/22/2020
 
  * Delete google-api-python-client library (is deprecated)
  * Minor documentation changes

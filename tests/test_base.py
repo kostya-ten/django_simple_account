@@ -185,7 +185,6 @@ class Signup(TestCase):
         self.assertEqual(session.get('action'), 'signup')
         self.assertEqual(session.get('next'), '/next/')
 
-
     def test_signup_confirmation(self):
 
         # Check request normal data
