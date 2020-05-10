@@ -117,3 +117,5 @@ LOCALE_PATHS = (
     os.path.join(os.path.dirname(__file__), "locale"),
     os.path.join(os.path.dirname(__file__), "../django_simple_account/locale"),
 )
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

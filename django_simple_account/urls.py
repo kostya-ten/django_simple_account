@@ -4,6 +4,7 @@ from . import views, converters
 
 register_converter(converters.OAuthSession, 'oauth')
 register_converter(converters.ConfirmationEmailSession, 'confirmation-email')
+register_converter(converters.ConfirmationForgotPasswordSession, 'confirmation-forgotpassword')
 
 app_name = 'django-simple-account'
 
@@ -18,7 +19,13 @@ urlpatterns = [
         views.ConfirmationEmail.as_view(),
         name='confirmation-email'
     ),
+
     path('forgotpassword/', views.ForgotPassword.as_view(), name='forgotpassword'),
+    path(
+        'forgotpassword/<confirmation-forgotpassword:session>/',
+        views.ForgotPasswordConfirmation.as_view(),
+        name='forgotpassword-confirmation'
+    ),
     path('facebook/deactivate/', views.FacebookDeactivate.as_view(), name='facebook-deactivate'),
 ]
 

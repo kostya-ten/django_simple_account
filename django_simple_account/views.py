@@ -294,5 +294,61 @@ class FacebookDeactivate(generic.FormView):
 
 class ForgotPassword(generic.FormView):
     form_class = forms.ForgotPassword
-    template_name = 'django_simple_account/forgotpassword.html'
+    template_name = 'django_simple_account/forgot_password.html'
     success_url = '/'
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        response.status_code = 400
+        return response
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        form.confirmation(request=self.request)
+        messages.success(self.request, _("We sent a link to email your password reset"))
+        return response
+
+
+class ForgotPasswordConfirmation(generic.FormView):
+    form_class = forms.ForgotPasswordConfirmation
+    template_name = 'django_simple_account/forgot_password_confirmation.html'
+    success_url = '/'
+
+    def dispatch(self, request, *args, **kwargs):
+        data = {}
+        for item in ['email']:
+            data[item] = getattr(self.kwargs.get('session'), item)
+        obj = User.objects.filter(email=data.get('email'))[:1]
+        if obj.exists():
+            self.initial['user'] = obj.get()
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        session = kwargs.get('session')
+        data = {}
+        for item in ['email']:
+            data[item] = getattr(session, item)
+        obj = User.objects.filter(email=data.get('email'))[:1]
+        if not obj.exists():
+            messages.error(self.request, _("User not found in database"))
+            return redirect(settings.LOGIN_URL)
+
+        if session.action != 'forgotpassword':
+            messages.error(self.request, _("The link in the email confirmation email is out of date"))
+            return redirect(settings.LOGIN_URL)
+
+        return super().get(request)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        response.status_code = 400
+        return response
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = form.save()
+        auth.login(self.request, user)
+        self.kwargs.get('session').session.delete()
+        messages.success(self.request, _("Password change successful"))
+        return response
