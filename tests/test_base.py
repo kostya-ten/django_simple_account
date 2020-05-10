@@ -185,48 +185,6 @@ class Signup(TestCase):
         self.assertEqual(session.get('action'), 'signup')
         self.assertEqual(session.get('next'), '/next/')
 
-    # def test_signup_confirmation_gravatar(self):
-    #
-    #     # Check request normal data
-    #     request = self.factory.post(reverse('accounts-signup') + "?next=/next/", data={
-    #         'username': 'test_user',
-    #         'first_name': 'Лилу',
-    #         'last_name': 'Казерогова',
-    #         'email': 'kostya@yandex.ru',
-    #         'password1': self.pwd,
-    #         'password2': self.pwd,
-    #     })
-    #
-    #     response = views.Signup.as_view()(request)
-    #     self.assertEqual(response.status_code, 302)
-    #
-    #     self.assertEqual(len(mail.outbox), 1)
-    #     body = mail.outbox[0].body
-    #     gp = re.search('confirmation/email/([a-z0-9]+)/', body)
-    #     self.assertRegex(gp.group(1), '^[a-z0-9]+$')
-    #
-    #     session_store = import_module(settings.SESSION_ENGINE).SessionStore
-    #     session = session_store(session_key=gp.group(1))
-    #     obj = converters.ConfirmationEmailSession().to_python(session=session.session_key)
-    #     request = self.factory.get(reverse('accounts-confirmation-email', kwargs={'session': session.session_key}))
-    #
-    #     # adding session
-    #     middleware = SessionMiddleware()
-    #     middleware.process_request(request)
-    #     request.session.save()
-    #
-    #     # adding messages
-    #     setattr(request, '_messages', FallbackStorage(request))
-    #     response = views.ConfirmationEmail.as_view()(request, session=obj)
-    #
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertRedirects(response, '/next/', fetch_redirect_response=False)
-    #
-    #     user = User.objects.get(email="kostya@yandex.ru")
-    #     self.assertEqual(response.status_code, 302)
-    #
-    #     avatar = user.profile.avatar
-    #     self.assertRegex(str(avatar), '^avatar/[0-9a-z_-]+')
 
     def test_signup_confirmation(self):
 
@@ -361,5 +319,74 @@ class OAuth(TestCase):
 
         obj = converters.OAuthSession().to_python(session=session.session_key)
         response = views.OAuthCompletion.as_view()(request, session=obj)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/', fetch_redirect_response=False)
+
+
+class ForgotPassword(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory(HTTP_HOST='localhost')
+        self.pwd = hashlib.sha256(str('hello word').encode()).hexdigest()
+        User.objects.create(username="username", email="devnull@yandex.ru")
+
+    def test_forgot_password(self):
+        # Check request get
+        request = self.factory.get(reverse('django-simple-account:forgotpassword'))
+        response = views.ForgotPassword.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check request normal data
+        request = self.factory.post(reverse('django-simple-account:forgotpassword') + "?next=/next/", data={
+            'email': 'devnull@yandex.ru',
+        })
+
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+        setattr(request, '_messages', FallbackStorage(request))
+
+        response = views.ForgotPassword.as_view()(request)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/', fetch_redirect_response=False)
+
+        self.assertEqual(len(mail.outbox), 1)
+        body = mail.outbox[0].body
+        gp = re.search('forgotpassword/([a-z0-9]+)/', body)
+        self.assertRegex(gp.group(1), '^[a-z0-9]+$')
+
+        session_store = import_module(settings.SESSION_ENGINE).SessionStore
+        session = session_store(session_key=gp.group(1))
+
+        obj = converters.ConfirmationForgotPasswordSession().to_python(session=session.session_key)
+
+        request = self.factory.get(
+            reverse('django-simple-account:forgotpassword-confirmation', kwargs={'session': session.session_key})
+        )
+
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+        setattr(request, '_messages', FallbackStorage(request))
+
+        response = views.ForgotPasswordConfirmation.as_view()(request, session=obj)
+        self.assertEqual(response.status_code, 200)
+
+        request = self.factory.post(
+            reverse('django-simple-account:forgotpassword-confirmation', kwargs={'session': session.session_key}),
+            data={
+                'password1': self.pwd,
+                'password2': self.pwd,
+            }
+        )
+
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+        setattr(request, '_messages', FallbackStorage(request))
+
+        response = views.ForgotPasswordConfirmation.as_view()(request, session=obj)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/', fetch_redirect_response=False)

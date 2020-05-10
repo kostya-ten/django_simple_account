@@ -4,11 +4,11 @@ from importlib import import_module
 
 from django import forms
 from django.conf import settings
+from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.core.handlers.wsgi import WSGIRequest
-from django.core.mail import EmailMessage
-from django.forms import PasswordInput
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 
@@ -44,13 +44,13 @@ class Signup(UserCreationForm, BaseForm):
     password1 = forms.CharField(
         label=_('Password'),
         validators=(validators.password,),
-        widget=PasswordInput(attrs={'autocomplete': 'new-password'})
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'})
     )
 
     password2 = forms.CharField(
         label=_('Password confirmation'),
         validators=(validators.password,),
-        widget=PasswordInput(attrs={'autocomplete': 'new-password'})
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'})
     )
 
     def confirmation(self, request: WSGIRequest = None) -> import_module(settings.SESSION_ENGINE).SessionStore:
@@ -144,19 +144,63 @@ class ForgotPassword(BaseForm):
         session.create()
 
         subject = render_to_string('django_simple_account/email/forgotpassword.subject.txt', {}).strip()
-        body = render_to_string('django_simple_account/email/forgotpassword.body.html', {
+        body_html = render_to_string('django_simple_account/email/forgotpassword.body.html', {
             'request': request,
             'session_key': session.session_key,
         })
 
-        msg = EmailMessage(
+        body_text = render_to_string('django_simple_account/email/forgotpassword.body.txt', {
+            'request': request,
+            'session_key': session.session_key,
+        })
+
+        msg = EmailMultiAlternatives(
+            body=body_text,
             subject=subject,
-            body=body,
-            from_email=settings.DEFAULT_FROM_EMAIL,
             to=[self.cleaned_data.get('email')],
             headers={'Message-ID': make_msgid(domain=request.get_host())}
         )
-        msg.content_subtype = "html"
+        msg.attach_alternative(body_html, "text/html")
         msg.send()
 
         return session
+
+
+class ForgotPasswordConfirmation(BaseForm):
+    password1 = forms.CharField(
+        label=_("New password"),
+        validators=(validators.password,),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'})
+    )
+
+    password2 = forms.CharField(
+        label=_("New password confirmation"),
+        validators=(validators.password,),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'})
+    )
+
+    error_messages = {
+        'password_mismatch': _('The two password fields didn’t match.'),
+    }
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.get('initial').get('user')
+        super().__init__(*args, **kwargs)
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+
+        if password1 and password2:
+            if password1 != password2:
+                raise forms.ValidationError(self.error_messages.get('password_mismatch'), code='password_mismatch')
+
+        password_validation.validate_password(password2, self.user)
+        return password2
+
+    def save(self, commit=True):
+        password = self.cleaned_data.get("password1")
+        self.user.set_password(password)
+        if commit:
+            self.user.save()
+        return self.user
