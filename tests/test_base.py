@@ -184,7 +184,6 @@ class Signup(TestCase):
         self.assertEqual(session.get('email'), 'devnull@yandex.ru')
         self.assertEqual(session.get('action'), 'signup')
         self.assertEqual(session.get('next'), '/next/')
-        self.assertEqual(session.get('utm').get('utm_source'), 'test')
 
     def test_signup_confirmation(self):
 
