@@ -1,6 +1,18 @@
 CHANGELOG
 =========
 
+v0.0.9
+-------
+05/11/2020
+
+ * perf: Add signal registration user
+
+v0.0.8
+-------
+05/11/2020
+
+ * fix: Include HTML and static files
+
 v0.0.7
 -------
 05/11/2020

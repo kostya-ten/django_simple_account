@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete
-from django.dispatch import receiver
+from django.dispatch import receiver, Signal
 
 from . import models
+
+user_registration = Signal()
 
 
 @receiver(post_save, sender=User)

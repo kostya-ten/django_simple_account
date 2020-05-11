@@ -61,7 +61,6 @@
                 $('[data-oauth="facebook"]').on('click', function() {
                     FB.login( function(response) {
                         if (response.status == "connected"){
-                            //oauth/facebook/
                             $.ajax({
                                 type: 'POST',
                                 url: '{% url "django-simple-account:oauth-facebook" %}',
