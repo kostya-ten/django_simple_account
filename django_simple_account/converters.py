@@ -53,6 +53,7 @@ class ConfirmationEmailSession:
         self.session = None
         self.action = None
         self.next = '/'
+        self.utm = None
 
     def to_python(self, session):
         session_store = import_module(settings.SESSION_ENGINE).SessionStore

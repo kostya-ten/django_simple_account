@@ -156,7 +156,7 @@ class Signup(TestCase):
         self.assertEqual(response.status_code, 200)
 
         # Check request normal data
-        request = self.factory.post(reverse('django-simple-account:signup') + "?next=/next/", data={
+        request = self.factory.post(reverse('django-simple-account:signup') + "?next=/next/&utm_source=test", data={
             'username': 'test_user',
             'first_name': 'Лилу',
             'last_name': 'Казерогова',
@@ -184,6 +184,7 @@ class Signup(TestCase):
         self.assertEqual(session.get('email'), 'devnull@yandex.ru')
         self.assertEqual(session.get('action'), 'signup')
         self.assertEqual(session.get('next'), '/next/')
+        self.assertEqual(session.get('utm').get('utm_source'), 'test')
 
     def test_signup_confirmation(self):
 

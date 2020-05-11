@@ -18,7 +18,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 
-from . import forms, converters, models
+from . import forms, converters, models, signals
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +27,9 @@ class Login(generic.FormView):
     form_class = forms.Login
     template_name = "django_simple_account/login.html"
     success_url = '/'
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
     def get_success_url(self):
         if self.request.GET.get('next'):
@@ -76,9 +79,13 @@ class ConfirmationEmail(generic.View):
             return redirect(settings.LOGIN_URL)
 
         user = form.save()
+        auth.login(self.request, user)
+
+        # Send signal
+        signals.user_registration.send(sender=self.__class__, user=user, is_oauth=False)
 
         session.session.delete()
-        auth.login(self.request, user)
+
         messages.success(self.request, _("Your address has been successfully verified"))
         return redirect(session.next)
 
@@ -233,6 +240,10 @@ class OAuthCompletion(generic.FormView):
 
                 auth.login(self.request, user)
                 models.OAuth.objects.create(oauth_id=session.oauth_id, provider=session.provider, user=user)
+
+                # Send signal
+                signals.user_registration.send(sender=self.__class__, user=user, is_oauth=True)
+
                 session.session.delete()
                 return redirect(self.get_success_url())
 
@@ -250,6 +261,10 @@ class OAuthCompletion(generic.FormView):
 
         session.session.delete()
         auth.login(self.request, user)
+
+        # Send signal
+        signals.user_registration.send(sender=self.__class__, user=user, is_oauth=True)
+
         return super().form_valid(form)
 
 
