@@ -1,3 +1,6 @@
 include *.txt
 include *.rst
 include LICENSE
+recursive-include django_simple_account/locale  *
+recursive-include django_simple_account/static  *
+recursive-include django_simple_account/templates  *
