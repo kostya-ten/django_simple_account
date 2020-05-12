@@ -66,7 +66,7 @@ class ConfirmationEmail(generic.View):
 
     def get(self, request, session: converters.ConfirmationEmailSession, *args, **kwargs):
         data = {}
-        for item in ['username', 'last_name', 'first_name', 'email', 'password1', 'password2']:
+        for item in ['username', 'last_name', 'first_name', 'email', 'password1', 'password2', 'params']:
             data[item] = getattr(session, item)
         form = self.form_class(data=data)
 
@@ -82,7 +82,12 @@ class ConfirmationEmail(generic.View):
         auth.login(self.request, user)
 
         # Send signal
-        signals.user_registration.send(sender=self.__class__, user=user, is_oauth=False)
+        signals.signup_user.send(
+            sender=self.__class__,
+            user=user,
+            is_oauth=False,
+            params=data.get('params'),
+        )
 
         session.session.delete()
 
@@ -242,7 +247,12 @@ class OAuthCompletion(generic.FormView):
                 models.OAuth.objects.create(oauth_id=session.oauth_id, provider=session.provider, user=user)
 
                 # Send signal
-                signals.user_registration.send(sender=self.__class__, user=user, is_oauth=True)
+                signals.signup_user.send(
+                    sender=self.__class__,
+                    user=user,
+                    is_oauth=True,
+                    params=request.GET.dict()
+                )
 
                 session.session.delete()
                 return redirect(self.get_success_url())
@@ -263,7 +273,12 @@ class OAuthCompletion(generic.FormView):
         auth.login(self.request, user)
 
         # Send signal
-        signals.user_registration.send(sender=self.__class__, user=user, is_oauth=True)
+        signals.signup_user.send(
+            sender=self.__class__,
+            user=user,
+            is_oauth=True,
+            params=self.request.GET.dict()
+        )
 
         return super().form_valid(form)
 

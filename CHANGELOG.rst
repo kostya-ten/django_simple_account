@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+v0.0.10
+-------
+05/12/2020
+
+ * perf: Sending in signals query params
+
 v0.0.9
 -------
 05/11/2020

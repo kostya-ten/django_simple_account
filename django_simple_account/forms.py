@@ -64,8 +64,10 @@ class Signup(UserCreationForm, BaseForm):
 
         if hasattr(request, 'GET'):
             session['next'] = request.GET.get('next', '/')
+            session['params'] = request.GET.dict()
         else:
             session['next'] = '/'
+            session['params'] = {}
 
         session.create()
 
