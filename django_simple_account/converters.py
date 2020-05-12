@@ -53,13 +53,14 @@ class ConfirmationEmailSession:
         self.session = None
         self.action = None
         self.next = '/'
-        self.utm = None
+        self.params = None
 
     def to_python(self, session):
         session_store = import_module(settings.SESSION_ENGINE).SessionStore
         self.session = session_store(session_key=session)
 
-        for item in ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'action', 'next']:
+        for item in ['username', 'first_name', 'last_name', 'email',
+                     'password1', 'password2', 'action', 'next', 'params']:
             setattr(self, item, self.session.get(item))
 
         return self

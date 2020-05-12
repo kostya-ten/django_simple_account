@@ -4,7 +4,7 @@ from django.dispatch import receiver, Signal
 
 from . import models
 
-user_registration = Signal()
+signup_user = Signal()
 
 
 @receiver(post_save, sender=User)

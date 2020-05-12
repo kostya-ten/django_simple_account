@@ -32,9 +32,20 @@
         <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit"  value="{% trans "Sign Up" %}">
     </form>
 
-    <div style="padding-bottom: 20px;"><a href="{% url 'django-simple-account:forgotpassword' %}" class="forgot-password-link">{% trans "Forgot password?" %}</a></div>
+    <div style="padding-bottom: 20px;">
+        {% if request.GET.urlencode %}
+            <a href="{% url 'django-simple-account:forgotpassword' %}?{{ request.GET.urlencode }}" class="forgot-password-link">{% trans "Forgot password?" %}</a>
+        {% else %}
+            <a href="{% url 'django-simple-account:forgotpassword' %}" class="forgot-password-link">{% trans "Forgot password?" %}</a>
+        {% endif %}
+    </div>
     <p class="login-card-footer-text">
-        {% trans "I have an account?" %} <a href="{% url 'django-simple-account:login' %}" class="text-underline text-reset">{% trans "Login here" %}</a>
+        {% trans "I have an account?" %}
+        {% if request.GET.urlencode %}
+            <a href="{% url 'django-simple-account:login' %}?{{ request.GET.urlencode }}" class="text-underline text-reset">{% trans "Login here" %}</a>
+        {% else %}
+            <a href="{% url 'django-simple-account:login' %}" class="text-underline text-reset">{% trans "Login here" %}</a>
+        {% endif %}
     </p>
     </div>
 {% endblock %}

@@ -28,8 +28,8 @@
                                 },
                                 success: function(result) {
                                     let session = result['session'];
-                                    {% if request.GET.next %}
-                                        window.location.href = "../oauth/completion/" + session + "/?next={{ request.GET.next }}";
+                                    {% if request.GET.urlencode %}
+                                        window.location.href = "../oauth/completion/" + session + "/?{{ request.GET.urlencode }}";
                                     {% else %}
                                         window.location.href = "../oauth/completion/" + session + "/?next=/";
                                     {% endif %}
@@ -72,8 +72,8 @@
                                 },
                                 success: function(result) {
                                     let session = result['session'];
-                                    {% if request.GET.next %}
-                                        window.location.href = "../oauth/completion/" + session + "/?next={{ request.GET.next }}";
+                                    {% if request.GET.urlencode %}
+                                        window.location.href = "../oauth/completion/" + session + "/?{{ request.GET.urlencode }}";
                                     {% else %}
                                         window.location.href = "../oauth/completion/" + session + "/?next=/";
                                     {% endif %}
@@ -112,9 +112,21 @@
         <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit"  value="{% trans "Login" %}">
     </form>
 
-    <div style="padding-bottom: 20px;"><a href="{% url 'django-simple-account:forgotpassword' %}" class="forgot-password-link">{% trans "Forgot password?" %}</a></div>
+    <div style="padding-bottom: 20px;">
+        {% if request.GET.urlencode %}
+            <a href="{% url 'django-simple-account:forgotpassword' %}?{{ request.GET.urlencode }}" class="forgot-password-link">{% trans "Forgot password?" %}</a>
+        {% else %}
+            <a href="{% url 'django-simple-account:forgotpassword' %}" class="forgot-password-link">{% trans "Forgot password?" %}</a>
+        {% endif %}
+    </div>
     <p class="login-card-footer-text">
-        {% trans "Don't have an account?" %} <a href="{% url 'django-simple-account:signup' %}" class="text-underline text-reset">{% trans "Register here" %}</a>
+        {% trans "Don't have an account?" %}
+
+        {% if request.GET.urlencode %}
+            <a href="{% url 'django-simple-account:signup' %}?{{ request.GET.urlencode }}" class="text-underline text-reset">{% trans "Register here" %}</a>
+        {% else %}
+            <a href="{% url 'django-simple-account:signup' %}" class="text-underline text-reset">{% trans "Register here" %}</a>
+        {% endif %}
     </p>
     <hr>
 
