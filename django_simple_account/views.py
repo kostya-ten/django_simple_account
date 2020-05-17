@@ -45,6 +45,17 @@ class Login(generic.FormView):
         return response
 
 
+class Logout(generic.RedirectView):
+    permanent = False
+    query_string = True
+    url = '/'
+
+    def get_redirect_url(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            auth.logout(self.request)
+        return super().get_redirect_url(*args, **kwargs)
+
+
 class Signup(generic.FormView):
     form_class = forms.Signup
     template_name = "django_simple_account/signup.html"

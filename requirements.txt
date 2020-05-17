@@ -1,4 +1,4 @@
-Django>=3.0.6
+Django>=3.1a1
 Pillow>=7.1.2
 phonenumbers>=8.12.3
 email-validator>=1.1.0
