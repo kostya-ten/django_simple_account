@@ -187,25 +187,27 @@ class OAuthGoogle(generic.FormView):
         )
         j = oauth_response.json()
 
-        email = j.get('email')
-        email = email.strip().lower()
-        user = email.rsplit('@', 1)[0]
-        user = str(user).replace(".", "_")
-
         session_store = import_module(settings.SESSION_ENGINE).SessionStore
         session = session_store()
         session.set_expiry(60 * 60 * 3)
 
         session['oauth_id'] = j.get('id')
-        session['username'] = user
         session['email'] = None
+        session['username'] = None
         session['first_name'] = j.get('given_name')
         session['last_name'] = j.get('family_name')
         session['avatar'] = j.get('picture')
         session['provider'] = 1
 
         if j.get('email_verified'):
-            session['email'] = email
+            email = j.get('email')
+            if email:
+                email = email.strip().lower()
+                user = email.rsplit('@', 1)[0]
+                session['email'] = email
+
+                user = str(user).replace(".", "_")
+                session['username'] = user
 
         session.create()
         return JsonResponse({'session': session.session_key})
