@@ -121,3 +121,6 @@ LOCALE_PATHS = (
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 INTERNAL_IPS = ('127.0.0.1',)
+
+OAUTH_GOOGLE_CLIENT_ID = "354849685105-qqc6cle4ipi1ish2gdpt9pmqkkt6fr2h.apps.googleusercontent.com"
+OAUTH_GOOGLE_SECRET_KEY = "SDe3zpzVk2jXq-e9ih5bgYJ7"

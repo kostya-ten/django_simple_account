@@ -172,12 +172,13 @@ class OAuthGoogle(generic.FormView):
             'client_id': getattr(settings, 'OAUTH_GOOGLE_CLIENT_ID', os.environ.get('OAUTH_GOOGLE_CLIENT_ID')),
             'client_secret': getattr(settings, 'OAUTH_GOOGLE_SECRET_KEY', os.environ.get('OAUTH_GOOGLE_SECRET_KEY')),
             'code': form.cleaned_data.get('code'),
+            'grant_type': 'authorization_code',
             'redirect_uri': "{scheme}://{host}".format(
-                scheme=self.request.scheme,
+                scheme=self.request.META.get('HTTP_X_FORWARDED_PROTO') or self.request.scheme,
                 host=self.request.get_host(),
                 path=self.request.path,
             ),
-            'grant_type': 'authorization_code'
+
         })
 
         j = oauth_response.json()
