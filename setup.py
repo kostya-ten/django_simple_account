@@ -17,7 +17,7 @@ with io.open("README.rst", encoding="UTF-8") as readme:
 
 setup(
     name='django-simple-account',
-    version='0.0.16',
+    version='0.0.17',
     packages=find_packages(),
     include_package_data=True,
     license='Apache License 2.0',
