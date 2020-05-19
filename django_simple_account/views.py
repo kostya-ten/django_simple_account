@@ -181,11 +181,16 @@ class OAuthGoogle(generic.FormView):
         })
 
         j = oauth_response.json()
+        if j.get('error'):
+           return JsonResponse({'error': j.get('error_description')}, status=400)
+
         oauth_response = requests.get(
             url="https://www.googleapis.com/oauth2/v1/userinfo",
             headers={'Authorization': 'Bearer {access_token}'.format(access_token=j.get('access_token'))}
         )
         j = oauth_response.json()
+        if j.get('error'):
+            return JsonResponse({'error': j.get('error').get('message')}, status=400)
 
         session_store = import_module(settings.SESSION_ENGINE).SessionStore
         session = session_store()

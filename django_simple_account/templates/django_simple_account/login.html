@@ -36,7 +36,9 @@
                                 },
                                 error: function (jqXHR, textStatus, errorThrown){
                                     if(textStatus == "error") {
-                                        console.log(jqXHR.status);
+                                        if (jqXHR.status == 400){
+                                            console.error(jqXHR.responseJSON['error']);
+                                        }
                                     }
                                 }
                             });
