@@ -131,8 +131,8 @@ class OAuthFacebook(generic.FormView):
             session.set_expiry(60 * 60 * 3)
 
             session['oauth_id'] = j.get('id')
-            session['last_name'] = j.get('last_name')
-            session['first_name'] = j.get('first_name')
+            session['last_name'] = j.get('last_name', "")
+            session['first_name'] = j.get('first_name', "")
             session['provider'] = 2
             session['email'] = None
             session['username'] = None
@@ -194,8 +194,8 @@ class OAuthGoogle(generic.FormView):
         session['oauth_id'] = j.get('id')
         session['email'] = None
         session['username'] = None
-        session['first_name'] = j.get('given_name')
-        session['last_name'] = j.get('family_name')
+        session['first_name'] = j.get('given_name', "")
+        session['last_name'] = j.get('family_name', "")
         session['avatar'] = j.get('picture')
         session['provider'] = 1
 
