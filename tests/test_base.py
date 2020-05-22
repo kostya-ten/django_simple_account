@@ -129,6 +129,15 @@ class Login(TestCase):
         request = self.factory.post(
             reverse('django-simple-account:login'), data={'username': 'username', 'password': self.pwd}
         )
+
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+
+        # adding messages
+        setattr(request, '_messages', FallbackStorage(request))
+
         response = views.Login.as_view()(request)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/', fetch_redirect_response=False)
@@ -138,6 +147,15 @@ class Login(TestCase):
 
         data = {'username': 'username', 'password': self.pwd}
         request = self.factory.post(reverse('django-simple-account:login') + "?next=/next/", data=data)
+
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+
+        # adding messages
+        setattr(request, '_messages', FallbackStorage(request))
+
         response = views.Login.as_view()(request)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/next/', fetch_redirect_response=False)
