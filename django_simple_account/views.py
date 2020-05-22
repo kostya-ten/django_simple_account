@@ -39,6 +39,11 @@ class Login(generic.FormView):
             logger.debug("next redirect {next}".format(next=self.success_url))
             return self.success_url
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        auth.login(self.request, form.get_user())
+        return response
+
     def form_invalid(self, form):
         response = super().form_invalid(form)
         response.status_code = 400

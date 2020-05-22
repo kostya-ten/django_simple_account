@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+v0.0.18
+-------
+05/22/2020
+
+ * fix: Authorization error fixed
+
 v0.0.10
 -------
 05/12/2020
